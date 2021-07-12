@@ -30,4 +30,3 @@ app.get('/',(req, res) => {
 //require
 require('./initializeDB')();
 
-//Listening to the Server
