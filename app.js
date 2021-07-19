@@ -15,9 +15,12 @@ app.listen(port, () => {
 
 //Import Routes
 const postsRoute = require('./routes/posts.js');
+const authRoute = require('./routes/auth.js');
+
 
 app.use(bodyParser.json());
 app.use('/posts', postsRoute);
+app.use('/auth', authRoute);
 //JSON to JS
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -29,4 +32,3 @@ app.get('/',(req, res) => {
 
 //require
 require('./initializeDB')();
-
