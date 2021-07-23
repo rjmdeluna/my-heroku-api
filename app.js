@@ -13,6 +13,16 @@ app.listen(port, () => {
     console.log("Server started on PORT : ", port);
 });
 
+//Database
+require('./initializeDB')();
+
+const db = mongoose.connection;
+
+db.once ('open', () => {
+    console.log ("Connected to MongoBD database...");
+});
+
+
 //Import Routes
 const postsRoute = require('./routes/posts.js');
 const authRoute = require('./routes/auth.js');
@@ -31,5 +41,3 @@ app.get('/',(req, res) => {
     res.send("Hello to you");
 });
 
-//require
-require('./initializeDB')();

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const app = express();
 
-var { Users } = require('../models/Accounts.js');
+var { accounts } = require('../models/Accounts.js');
 
 
 // signup route api
@@ -10,13 +11,13 @@ router.post("/signup", async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
   
-    let user = await Users.findOne({ email });
+    let user = await accounts.findOne({ email });
 
     if (user) {
       return res.json({ msg: "Email already taken" });
     }
   
-    user = new Users({
+    user = new accounts({
       email,
       password,
     });
@@ -31,7 +32,7 @@ router.post("/signup", async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
   
-    let user = await Users.findOne({ email });
+    let user = await accounts.findOne({ email });
     console.log(user);
 
     if (!user) {

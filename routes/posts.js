@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post.js');
 const app = express();
+const verify = require('../vtoken');
 
 //GET
-router.get('/', async(req, res) => {
+router.get('/',verify,async(req, res) => {
     const x = await Post.find();
     res.json(x);
 });
 app.use(express.json());
 
 //POST
-router.post('/create', (req, res) => {
+router.post('/create', verify, (req, res) => {
     const post = new Post({
         last_name: req.body.last_name,
         first_name: req.body.first_name,
@@ -32,13 +33,13 @@ router.get('/get/:id', async (req,res) =>{
 });
 
 //Delete Contacts 
-router.delete('/delete/:id', async (req,res) => {
+router.delete('/delete/:id', verify, async (req,res) => {
     const result = await Post.findByIdAndDelete({_id: req.params.id});
     res.json(result);
 });
 
 //Update a Contacts
-router.patch('/update/:id', async (req, res) => {
+router.patch('/update/:id', verify, async (req, res) => {
     const patch = await Post.updateOne({_id: req.params.id}, {$set: req.body});
     res.json(patch);
 });
