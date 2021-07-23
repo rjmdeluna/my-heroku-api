@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-var { accounts } = require('../models/Accounts.js');
+var { Users } = require('../models/Accounts.js');
 
 
 // signup route api
@@ -10,19 +10,19 @@ router.post("/signup", async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
   
-    let user = await accounts.findOne({ email });
-  
+    let user = await Users.findOne({ email });
+
     if (user) {
       return res.json({ msg: "Email already taken" });
     }
   
-    user = new accounts({
+    user = new Users({
       email,
       password,
     });
   
     await user.save();
-    var token = jwt.sign({ id: user.id }, "password");
+    var token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
     res.json({ token: token });
   });
 
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
   
-    let user = await accounts.findOne({ email });
+    let user = await Users.findOne({ email });
     console.log(user);
 
     if (!user) {
@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
       return res.json({ msg: "password is not correct" });
     }
   
-    var token = jwt.sign({ id: user.id }, "password");
+    var token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
     return res.json({ token: token });
   });
 
